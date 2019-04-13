@@ -7,9 +7,9 @@
 	<persistence-unit name="SecurityPU" transaction-type="JTA" >
 		<jta-data-source>java:app/datasources/OracleIssueDS</jta-data-source>
 		
-<!-- 		<class>security.entity.LoginUser</class> -->
-<!--       	<class>security.entity.LoginGroup</class>      -->
-			<class>dmit2015.entity.Issue</class>
+		<class>security.entity.LoginUser</class>
+      	<class>security.entity.LoginGroup</class>     
+		<class>dmit2015.entity.Issue</class>
 
 		<properties>
 			<property name="javax.persistence.schema-generation.create-source" 
