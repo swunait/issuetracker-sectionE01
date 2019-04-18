@@ -41,7 +41,7 @@ public class IssueResource {
 	public Response findOneById(@PathParam("id") long issueId) {
 		Issue existingIssue = issueService.findOneIssue(issueId);
 		if (existingIssue != null) {
-			Response.ok(existingIssue).build();
+			return Response.ok(existingIssue).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
