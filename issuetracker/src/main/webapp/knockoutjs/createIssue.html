@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+			  
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+<title>New Issue</title>
+</head>
+<body>
+
+<div class="container">
+	<h2>Create New Issue</h2>
+	
+	<ul id="errors" class="bg-danger" data-bind="foreach: errors">
+   		<li><span data-bind="text: $data"></span></li>
+    </ul>
+    
+	<div id="editor" class="section panel panel-primary">
+        <div class="panel-heading">
+            Edit Issue
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Issue Label</label>
+                <input class="form-control" data-bind="value: issueLabel" />                
+            </div>
+             <div class="form-group">
+                <label>Issue Date</label>
+                <input class="form-control" data-bind="value: issueDate" />                
+            </div>
+            <button class="btn btn-primary" data-bind="click: createRegion">Save</button>
+            <button class="btn btn-default" onclick="handleCancelClick()" >Cancel</button>
+      </div>
+    </div>
+</div>
+
+<script>
+function handleCancelClick() {
+	window.location.href = "issues.html";
+}
+
+function Issue(data) {
+	var self = this;
+	self.issueId = ko.observable(data.issueId);
+	self.issueLabel = data.issueLabel;
+	self.issueDate = data.issueDate;
+}
+
+function RegionViewModel() {
+	var self = this;
+	self.issueLabel = ko.observable("");
+	self.issueDate = ko.observable("");
+	
+	self.errors = ko.observableArray([]);
+	
+	self.createRegion = function() {
+		$.ajax("http://localhost:8080/issuetracker/resources/issues", {
+			data: ko.toJSON( { issueLabel: self.issueLabel(), issueDate: self.issueDate() } ),
+			type: "POST",
+			contentType: "application/json",
+			success: function(result) { 
+				window.location.href = "issues.html";
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+				if (jqXHR.status == 400 || jqXHR.status == 409) {
+					var errorMsg = $.parseJSON(jqXHR.responseText);
+	                $.each(errorMsg, function(name, value) {
+	                	console.log('name: ' + name);
+	                	console.log('value: ' + value);
+	                	self.errors.removeAll();
+	                	self.errors.push(value);
+	                	alert(value);
+	                });
+				} else {
+					alert('error ' + errorThrown);
+					
+				}
+			}
+		});
+	}
+	
+}
+
+ko.applyBindings(new RegionViewModel());
+</script>
+
+</body>
+</html>
