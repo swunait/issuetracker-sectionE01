@@ -1,11 +1,9 @@
 package dmit2015.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
