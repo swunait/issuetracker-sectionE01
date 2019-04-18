@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	  
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+
+<title>Issues</title>
+</head>
+<body>
+
+<div class="container">
+	<h2>Issues</h2>
+	
+	<table id="issuesTable" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>IssueID</th>
+				<th>Issue Label</th>
+				<th>Issue Date</th>
+			</tr>	
+		</thead>
+		<tbody data-bind="foreach: issues">
+			<tr>
+				<td data-bind="text: issueId"></td>
+				<td data-bind="text: issueLabel"></td>
+				<td data-bind="text: issueDate"></td>
+			</tr>	
+		</tbody>
+	</table>	
+</div>
+
+<script>
+function Issue(data) {
+	var self = this;
+	self.issueId = data.issueId;
+	self.issueLabel = data.issueLabel;
+	self.issueDate = data.issueDate;
+}
+
+function RegionsViewModel() {
+	var self = this;
+	self.issues = ko.observableArray([]);
+
+	var apiLocation = "http://localhost:8080/issuetracker/resources/issues";
+	
+	$.getJSON(apiLocation, function(allData) {
+		var mappedRegions = $.map(allData, function(singleData) { return new Issue(singleData); });
+		self.issues(mappedRegions);
+	});
+}
+
+ko.applyBindings(new RegionsViewModel());
+</script>
+
+</body>
+</html>

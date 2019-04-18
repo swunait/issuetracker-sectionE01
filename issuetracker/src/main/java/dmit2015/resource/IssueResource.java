@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import dmit2015.entity.Issue;
 import dmit2015.service.IssueService;
@@ -29,10 +30,20 @@ public class IssueResource {
 		return issueService.findAllIssue();
 	}
 	
+//	@GET
+//	@Path("{id}")
+//	public Issue findOneById(@PathParam("id") long issueId) {
+//		return issueService.findOneIssue(issueId);
+//	}
+	
 	@GET
 	@Path("{id}")
-	public Issue findOneById(@PathParam("id") long issueId) {
-		return issueService.findOneIssue(issueId);
+	public Response findOneById(@PathParam("id") long issueId) {
+		Issue existingIssue = issueService.findOneIssue(issueId);
+		if (existingIssue != null) {
+			Response.ok(existingIssue).build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 	
 	@POST
