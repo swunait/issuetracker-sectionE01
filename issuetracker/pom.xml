@@ -46,7 +46,7 @@
 		
 		<!-- JDBC drivers -->
 		<version.h2database>1.4.197</version.h2database>
-		<version.mysql>8.0.15</version.mysql>
+		<version.mysql>8.0.16</version.mysql>
 		<version.mssql-jdbc>7.2.1.jre8</version.mssql-jdbc>
 		
 	</properties>
