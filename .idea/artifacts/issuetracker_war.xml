@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="issuetracker:war">
+    <output-path>$PROJECT_DIR$/issuetracker/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>issuetracker</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="issuetracker.war">
+      <element id="artifact" artifact-name="issuetracker:war exploded" />
+    </root>
+  </artifact>
+</component>
