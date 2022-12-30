@@ -44,7 +44,7 @@
 		<version.selenium-jupiter>3.1.1</version.selenium-jupiter>
 		
 		<!-- JDBC drivers -->
-		<version.h2database>2.1.212</version.h2database>
+		<version.h2database>2.1.214</version.h2database>
 		<version.mysql>8.0.28</version.mysql>
 		<version.mssql-jdbc>10.2.1.jre8</version.mssql-jdbc>
 		
